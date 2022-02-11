@@ -92,6 +92,18 @@ export default NextAuth({
       }
       return session;
     },
+    redirect({ url, baseUrl }) {
+      if (url === `${baseUrl}/admin/login`) {
+        url = `${baseUrl}/admin/dashboard`;
+      }
+      if (url.startsWith(baseUrl)) {
+        console.log("DOING FIRST OPTION");
+        return url;
+      }
+      // Allows relative callback URLs
+      else if (url.startsWith("/")) return new URL(url, baseUrl).toString();
+      return baseUrl;
+    },
   },
   secret: "test",
   jwt: {

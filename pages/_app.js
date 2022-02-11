@@ -1,9 +1,8 @@
 import { SessionProvider } from "next-auth/react";
 import { useSession } from "next-auth/react";
-import "../styles/globals.css";
-import { signIn } from "next-auth/react";
 import { Router } from "next/router";
-import Login from "./auth/login";
+import HandleRedirect from "./auth/handleRedirect";
+import "../styles/globals.css";
 
 export default function App({
   Component,
@@ -41,13 +40,10 @@ function AdminAuth({ children }) {
   const isUser = !!session?.user;
   if (isUser && session.user.role === "ADMIN") {
     return children;
+  } else if (isUser && session.user.role !== "ADMIN") {
+    return <HandleRedirect path="/admin/login" />;
   }
 
-  // Session is being fetched, or no user.
-  // If no user, useEffect() will redirect.
-  // return (
-  //   <Login login={"Admin Portal"} path={"/api/auth/callback/admin_login"} />
-  // );
   return <div>Loading...</div>;
 }
 
@@ -61,22 +57,9 @@ function StoreAuth({ children }) {
   const isUser = !!session?.user;
   if (isUser && session.user.role === "STORE") {
     return children;
+  } else if (isUser && session.user.role !== "STORE") {
+    return <HandleRedirect path="/auth/login" />;
   }
 
-  // Session is being fetched, or no user.
-  // If no user, useEffect() will redirect.
-  // return (
-  //   <Login login={"Store Portal"} path={"/api/auth/callback/store_login"} />
-  // );
   return <div>Loading...</div>;
 }
-
-// function Redirect({ path }) {
-//   return (
-//     <>
-//       <div>Redirecting...</div>
-//       {/* <button onClick={signIn("admin", { redirect: path })}></button> */}
-//       {() => Router.push(path)}
-//     </>
-//   );
-// }

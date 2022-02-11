@@ -28,7 +28,6 @@ export default function Dashboard() {
 
 Dashboard.auth = {
   role: "ADMIN",
-  unauthorized: "/admin/login",
 };
 
 // AdminDashboard.auth = {

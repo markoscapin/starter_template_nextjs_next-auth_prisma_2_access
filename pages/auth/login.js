@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import Link from "next/link";
 import { getCsrfToken } from "next-auth/react";
 // layout for page
-
+import Cookies from "cookies";
 import Auth from "../../layouts/Auth.js";
 
 export default function Login({ csrfToken }) {
@@ -98,6 +98,8 @@ export default function Login({ csrfToken }) {
 Login.layout = Auth;
 
 export async function getServerSideProps(context) {
+  const cookies = new Cookies(context.req, context.res);
+  cookies.set("next-auth.callback-url", "/");
   return {
     props: {
       csrfToken: await getCsrfToken(context),
