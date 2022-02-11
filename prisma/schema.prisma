@@ -15,11 +15,6 @@ enum Role {
   ADMIN
 }
 
-enum GDO {
-  Iper
-  Conad
-  Gigante
-}
 
 model Admin {
   id        Int      @id @default(autoincrement())
@@ -34,23 +29,6 @@ model Store {
   createdAt    DateTime      @default(now())
   password     String
   username     String        @unique
-  locationName String
-  reseller     String
   role         Role          @default(STORE)
-  gdo          GDO
-  transactions Transaction[]
 }
 
-model Transaction {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  store     Store    @relation(fields: [storeId], references: [id])
-  storeId   Int
-  details   Json[]
-  total     Float
-}
-
-model PriceList {
-  id        Int    @id @default(autoincrement())
-  priceList Json[]
-}
